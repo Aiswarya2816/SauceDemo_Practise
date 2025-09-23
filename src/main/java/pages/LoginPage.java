@@ -4,56 +4,48 @@ import Constants.FrameworkConstants;
 import base.DriverFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import utils.Waits;
 
-public class loginPage extends DriverFactory {
+public class LoginPage {
 
     private WebDriver driver;
 
-    @FindBy(css = "[id='user-name']")
-    WebElement username;
+    private By usernameField = By.id("user-name");
+    private By passwordField = By.name("password");
+    private By loginButton = By.id("login-button");
+    private By errorMessage = By.cssSelector("[data-test='error']");
 
-    @FindBy(css = "[name='password']")
-    WebElement password;
-
-    @FindBy(css = "#login-button")
-    WebElement loginBtn;
-
-    public loginPage() {
-        this.driver = DriverFactory.getDriver();
-        PageFactory.initElements(driver,this);
+    public LoginPage(WebDriver driver) {
+        this.driver = driver;
     }
 
-    public loginPage navigateTo(){
-        driver.get(FrameworkConstants.URL);
+    public LoginPage enterUsername(String uname) {
+        Waits.waitForVisibility(driver, usernameField).sendKeys(uname);
         return this;
     }
 
-    public loginPage enterUsername(String uname) {
-        Waits.waitForVisibility((By) username).sendKeys(uname);
+    public LoginPage enterPassword(String pwd) {
+        Waits.waitForVisibility(driver, passwordField).sendKeys(pwd);
         return this;
     }
 
-    // Enter password
-    public loginPage enterPassword(String pwd) {
-        Waits.waitForVisibility((By) password).sendKeys(pwd);
+    public LoginPage clickLogin() {
+        Waits.waitForClickability(driver, loginButton).click();
         return this;
     }
 
-    // Click login button
-    public loginPage clickLogin() {
-        Waits.waitForClickability((By) loginBtn).click();
-        return this;
-    }
-
-    // Full login workflow
-    public loginPage login(String uname, String pwd) {
+    public LoginPage login(String uname, String pwd) {
         return enterUsername(uname)
                 .enterPassword(pwd)
                 .clickLogin();
+    }
+
+    public LoginPage loginWithStandardUser() {
+        return login(FrameworkConstants.STANDARD_USER, FrameworkConstants.PASSWORD);
+    }
+
+    public String getErrorMessage() {
+        return Waits.waitForVisibility(driver, errorMessage).getText();
     }
 
 }

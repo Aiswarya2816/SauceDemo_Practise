@@ -10,6 +10,10 @@ public class DriverFactory {
     private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
     public static WebDriver initDriver(String browser) {
+        if (browser == null || browser.isEmpty()) {
+            throw new IllegalArgumentException("Browser must be provided.");
+        }
+
         switch (browser.toLowerCase()) {
             case "chrome":
                 WebDriverManager.chromedriver().setup();
@@ -27,18 +31,22 @@ public class DriverFactory {
                 break;
 
             default:
-                throw new IllegalArgumentException("Browser not supported: " + browser);
+                throw new IllegalArgumentException("Unsupported browser: " + browser);
         }
+
         driver.get().manage().window().maximize();
         return driver.get();
     }
 
     public static WebDriver getDriver() {
+        if (driver.get() == null) {
+            throw new IllegalStateException("Driver not initialized. Call initDriver() first.");
+        }
         return driver.get();
     }
 
-    public static void quitDriver(){
-        if(driver.get()!=null){
+    public static void quitDriver() {
+        if (driver.get() != null) {
             driver.get().quit();
             driver.remove();
         }

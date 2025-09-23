@@ -11,27 +11,20 @@ import base.DriverFactory;
 import java.time.Duration;
 
 public class Waits {
-    private static WebDriver getDriver() {
-        return DriverFactory.getDriver();
+    public static WebElement waitForVisibility(WebDriver driver, By locator) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(FrameworkConstants.TIMEOUT));
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
-
-    private static WebDriverWait getWait() {
-        return new WebDriverWait(getDriver(), Duration.ofSeconds(FrameworkConstants.TIMEOUT));
+    public static WebElement waitForVisibility(WebDriver driver, WebElement element) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(FrameworkConstants.TIMEOUT));
+        return wait.until(ExpectedConditions.visibilityOf(element));
     }
-
-    public static WebElement waitForVisibility(By locator) {
-        return getWait().until(ExpectedConditions.visibilityOfElementLocated(locator));
+    public static WebElement waitForClickability(WebDriver driver, By locator) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(FrameworkConstants.TIMEOUT));
+        return wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
-
-    public static WebElement waitForClickability(By locator) {
-        return getWait().until(ExpectedConditions.elementToBeClickable(locator));
-    }
-
-    public static WebElement waitForPresence(By locator) {
-        return getWait().until(ExpectedConditions.presenceOfElementLocated(locator));
-    }
-
-    public static boolean waitForText(By locator, String text) {
-        return getWait().until(ExpectedConditions.textToBePresentInElementLocated(locator, text));
+    public static WebElement waitForClickability(WebDriver driver, WebElement element) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(FrameworkConstants.TIMEOUT));
+        return wait.until(ExpectedConditions.elementToBeClickable(element));
     }
 }

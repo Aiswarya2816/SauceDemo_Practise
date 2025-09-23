@@ -1,12 +1,14 @@
 import Constants.FrameworkConstants;
-import base.BaseTest;
-import org.openqa.selenium.By;
-import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pages.LoginPage;
 
 public class LoginTest extends BaseTest {
-    LoginPage loginPage = new LoginPage(driver);
+    private LoginPage loginPage;
+    @BeforeMethod
+    public void pageSetup(){
+        loginPage = new LoginPage(driver);
+    }
     @Test(description = "Positive test: login with valid credentials")
     public void loginWithValidUser() {
         loginPage.login(FrameworkConstants.STANDARD_USER, FrameworkConstants.PASSWORD);

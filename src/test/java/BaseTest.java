@@ -1,9 +1,8 @@
-package base;
-
+import base.DriverFactory;
 import org.openqa.selenium.WebDriver;
 
 import Constants.FrameworkConstants;
-//import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
 public class BaseTest {
@@ -15,7 +14,7 @@ public class BaseTest {
         driver.get(FrameworkConstants.SAUCEDEMO_URL);
     }
 
-//    @AfterMethod
+    @AfterMethod
     public void tearDown() {
         DriverFactory.quitDriver();
     }

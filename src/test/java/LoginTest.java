@@ -1,6 +1,8 @@
 import Constants.ErrorMessages;
 import Constants.FrameworkConstants;
+import org.testng.Assert;
 import org.testng.annotations.Test;
+import pages.HomePage;
 import pages.LoginPage;
 
 public class LoginTest{
@@ -10,9 +12,10 @@ public class LoginTest{
         new LoginPage()
                 .enterUsername(FrameworkConstants.USERNAME)
                 .enterPassword(FrameworkConstants.PASSWORD)
-                .clickLogin()
-                .verifyInventoryPageOpened()
-                .verifyTitle();
+                .clickLogin();
+        Assert.assertTrue(new HomePage().isInventoryPageOpened(),
+                "Login failed: Inventory page not opened.");
+        Assert.assertEquals(new HomePage().getTitle(),FrameworkConstants.TITLE);
     }
 
     @Test
@@ -20,7 +23,7 @@ public class LoginTest{
         new LoginPage()
                 .enterUsername("")
                 .enterPassword("")
-                .clickLoginExpectingFailure()
-                .verifyErrorMessage(ErrorMessages.INVALID_CREDENTIALS);
+                .clickLoginExpectingFailure();
+        Assert.assertEquals(new LoginPage().getErrorMessage(), ErrorMessages.INVALID_CREDENTIALS, "Error message mismatch!");
     }
 }

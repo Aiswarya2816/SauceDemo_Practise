@@ -3,7 +3,6 @@ package pages;
 import base.DriverFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
 import utils.Waits;
 
 public class LoginPage {
@@ -29,22 +28,15 @@ public class LoginPage {
         return this;
     }
 
-    public HomePage clickLogin() {
-        driver.findElement(loginButton).click();
-        return new HomePage(driver);
+    public void clickLogin() {
+        Waits.waitForClickability(driver, loginButton).click();
     }
 
     public String getErrorMessage() {
         return Waits.waitForVisibility(driver, errorMessage).getText();
     }
 
-    public LoginPage clickLoginExpectingFailure() {
+    public void clickLoginExpectingFailure() {
         driver.findElement(loginButton).click();
-        return this; // stay on LoginPage
     }
-
-    public void verifyErrorMessage(String expectedMessage) {
-        Assert.assertEquals(getErrorMessage(), expectedMessage, "Error message mismatch!");
-    }
-
 }

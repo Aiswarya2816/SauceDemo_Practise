@@ -1,16 +1,15 @@
 package pages;
 
-import Constants.FrameworkConstants;
+import base.DriverFactory;
 import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
 
 import java.util.Objects;
 
 public class HomePage {
     private final WebDriver driver;
 
-    public HomePage(WebDriver driver) {
-        this.driver = driver;
+    public HomePage() {
+        this.driver = DriverFactory.getDriver();
     }
 
     public boolean isInventoryPageOpened() {
@@ -19,16 +18,5 @@ public class HomePage {
 
     public String getTitle() {
         return driver.getTitle();
-    }
-
-    public HomePage verifyInventoryPageOpened() {
-        Assert.assertTrue(driver.getCurrentUrl().contains("inventory"),
-                "Login failed: Inventory page not opened.");
-        return this; // allows further chaining
-    }
-
-    public HomePage verifyTitle() {
-        Assert.assertEquals(driver.getTitle(), FrameworkConstants.TITLE, "Page title mismatch!");
-        return this;
     }
 }

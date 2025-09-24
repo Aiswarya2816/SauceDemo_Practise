@@ -7,7 +7,7 @@ import pages.LoginPage;
 
 public class LoginTest extends BaseTest{
 
-    @Test(description = "Positive test: login with valid credentials")
+    @Test (priority = 0, description = "Positive test: login with valid credentials")
     public void testValidLogin() {
         new LoginPage()
                 .enterUsername(FrameworkConstants.USERNAME)
@@ -18,7 +18,7 @@ public class LoginTest extends BaseTest{
         Assert.assertEquals(new HomePage().getTitle(),FrameworkConstants.TITLE);
     }
 
-    @Test
+    @Test(priority = 1, description = "Negative test: login with blank")
     public void testInvalidLogin_BlankCredentials() {
         new LoginPage()
                 .enterUsername("")

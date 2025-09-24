@@ -1,5 +1,4 @@
 import base.DriverFactory;
-import org.openqa.selenium.WebDriver;
 
 import Constants.FrameworkConstants;
 import org.testng.annotations.AfterMethod;

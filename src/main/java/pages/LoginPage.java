@@ -3,16 +3,17 @@ package pages;
 import base.DriverFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 import utils.Waits;
 
 public class LoginPage {
 
     private final WebDriver driver;
 
-    private By usernameField = By.id("user-name");
-    private By passwordField = By.name("password");
-    private By loginButton = By.id("login-button");
-    private By errorMessage = By.cssSelector("[data-test='error']");
+    private final By usernameField = By.id("user-name");
+    private final By passwordField = By.name("password");
+    private final By loginButton = By.id("login-button");
+    private final By errorMessage = By.cssSelector("[data-test='error']");
 
     public LoginPage() {
         this.driver = DriverFactory.getDriver();
@@ -33,18 +34,17 @@ public class LoginPage {
         return new HomePage(driver);
     }
 
-    public void login(String uname, String pwd) {
-        try {
-            enterUsername(uname)
-                    .enterPassword(pwd)
-                    .clickLogin();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
     public String getErrorMessage() {
         return Waits.waitForVisibility(driver, errorMessage).getText();
+    }
+
+    public LoginPage clickLoginExpectingFailure() {
+        driver.findElement(loginButton).click();
+        return this; // stay on LoginPage
+    }
+
+    public void verifyErrorMessage(String expectedMessage) {
+        Assert.assertEquals(getErrorMessage(), expectedMessage, "Error message mismatch!");
     }
 
 }

@@ -5,7 +5,7 @@ import org.testng.annotations.Test;
 import pages.HomePage;
 import pages.LoginPage;
 
-public class LoginTest{
+public class LoginTest extends BaseTest{
 
     @Test(description = "Positive test: login with valid credentials")
     public void testValidLogin() {
@@ -24,6 +24,6 @@ public class LoginTest{
                 .enterUsername("")
                 .enterPassword("")
                 .clickLoginExpectingFailure();
-        Assert.assertEquals(new LoginPage().getErrorMessage(), ErrorMessages.INVALID_CREDENTIALS, "Error message mismatch!");
+        Assert.assertEquals(new LoginPage().getErrorMessage(), ErrorMessages.EMPTY_USERNAME, "Error message mismatch!");
     }
 }

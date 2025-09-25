@@ -3,16 +3,23 @@ package pages;
 import base.DriverFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import utils.Waits;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 public class LoginPage {
 
     private final WebDriver driver;
+    private Random random = new Random();
 
     private final By usernameField = By.id("user-name");
     private final By passwordField = By.name("password");
     private final By loginButton = By.id("login-button");
     private final By errorMessage = By.cssSelector("[data-test='error']");
+    private final By loginCreds = By.id("login_credentials");
 
     public LoginPage() {
         this.driver = DriverFactory.getDriver();
@@ -38,5 +45,19 @@ public class LoginPage {
 
     public void clickLoginExpectingFailure() {
         driver.findElement(loginButton).click();
+    }
+
+    public List<String> getCredentials(){
+        return Arrays.stream(driver.findElement(loginCreds).getText()
+                        .split("\\r?\\n"))
+                .skip(1)
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .toList();
+    }
+
+    public String getRandomCredential() {
+        List<String> creds = getCredentials();
+        return creds.get(random.nextInt(creds.size())); // pick random index
     }
 }

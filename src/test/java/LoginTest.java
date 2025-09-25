@@ -18,7 +18,18 @@ public class LoginTest extends BaseTest{
         Assert.assertEquals(new HomePage().getTitle(),FrameworkConstants.TITLE);
     }
 
-    @Test(priority = 1, description = "Negative test: login with blank")
+    @Test (priority = 1, description = "Positive test: login with valid random credentials")
+    public void testValidLoginWithRandom() {
+        new LoginPage()
+                .enterUsername(new LoginPage().getRandomCredential())
+                .enterPassword(FrameworkConstants.PASSWORD)
+                .clickLogin();
+        Assert.assertTrue(new HomePage().isInventoryPageOpened(),
+                "Login failed: Inventory page not opened.");
+        Assert.assertEquals(new HomePage().getTitle(),FrameworkConstants.TITLE);
+    }
+
+    @Test(priority = 2, description = "Negative test: login with blank")
     public void testInvalidLogin_BlankCredentials() {
         new LoginPage()
                 .enterUsername("")

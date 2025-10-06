@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DriverFactory {
-    private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+    public static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
     public static WebDriver initDriver(String browser) {
         if (browser == null || browser.isEmpty()) {
